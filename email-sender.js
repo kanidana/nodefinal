@@ -5,30 +5,38 @@
 // (https://www.w3schools.com/nodejs/nodejs_email.asp)
 // Essayez d’envoyer votre propre e-mail en utilisant ce
 
-const nodemailer = require('nodemailer');
+const nodeMailer = require('nodemailer')
 
-// un transporteur réutilisable avec les informations de  service de messagerie
-let transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: '', // adresse e-mail
-    pass: '' //  mot de passe
-  }
+
+let transporter = nodeMailer.createTransport({
+    host:'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth:{
+        user: '', //email
+        pass:'' //email
+    }  
 });
 
-// Définissez les options de l'e-mail
 let mailOptions = {
-  from: '',
-  to: '',
-  subject: 'Test d\'envoi d\'e-mail avec Nodemailer',
-  text: 'bonjour'
+    from:'', //email
+    to:'', // email
+    subject:'test de sendmailer',
+    text:'hello world?'
 };
 
-// Envoyez l'e-mail
-transporter.sendMail(mailOptions, function(error, info){
-  if (error) {
-    return console.log(error);
-  }
-  console.log('E-mail envoyé: ' + info.response);
-});
+transporter.sendMail(mailOptions,(erreur, info)=>{
+    if (erreur) {
+        console.log('Error occurred: %s', erreur.message);
+        return;
+    }
+    if (info) {
+        console.log('Message sent: %s', info.messageId);
+    } else {
+        console.log('No info object received');
+    }
+    
+})
+
+
 
